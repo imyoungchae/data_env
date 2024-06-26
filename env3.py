@@ -145,7 +145,7 @@ for i in range(8):
     ur5_dof_props['damping'][i] = 200
     ur5_dof_props['driveMode'][i] = gymapi.DOF_MODE_POS
 
-asset_box = gym.create_box(sim,0.5,0.5,0.9,wall_options)
+asset_box = gym.create_box(sim,0.5,0.5,1.3,wall_options)
 
 envs=[]
 
