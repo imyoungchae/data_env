@@ -96,9 +96,10 @@ wall_asset_1 = gym.create_box(sim,0.1,2.95,3.0,wall_options)
 wall_asset_2 = gym.create_box(sim,3.0,0.1,3.0,wall_options)
 
 table_options = gymapi.AssetOptions()
+table_options.fix_base_link = True
 #table_file="urdf/table.urdf"
 #table_asset = gym.load_asset(sim, asset_root, table_file, table_options)
-table_options.fix_base_link = True
+
 cube_file = "urdf/Room_Essentials_Fabric_Cube_Lavender/model.urdf"
 cube_asset = gym.load_asset(sim, asset_root,cube_file, table_options)
 basket_file = "urdf/Target_Basket_Medium/model.urdf"
@@ -119,6 +120,15 @@ tomato_asset = gym.load_asset(sim, asset_root,tomato_file, table_options)
 mustard_file = "urdf/ycb/006_mustard_bottle/model.urdf"
 mustard_asset = gym.load_asset(sim, asset_root,mustard_file, table_options)
 
+banana_file = "urdf/ycb/014_lemon/model.urdf"
+banana_asset = gym.load_asset(sim, asset_root,banana_file, table_options)
+
+plum_file = "urdf/ycb/018_plum/model.urdf"
+plum_asset = gym.load_asset(sim, asset_root,plum_file, table_options)
+
+orange_file = "urdf/ycb/017_orange/model.urdf"
+orange_asset = gym.load_asset(sim, asset_root,orange_file, table_options)
+
 cooker_file = "urdf/google/TriStar_Products_PPC_Power_Pressure_Cooker_XL_in_Black/model.urdf"
 cooker_asset = gym.load_asset(sim, asset_root, cooker_file, table_options)
 knife_file = "urdf/google/JA_Henckels_International_Premio_Cutlery_Block_Set_14Piece/model.urdf"
@@ -128,15 +138,29 @@ frypan_asset = gym.load_asset(sim, asset_root, frypan_file, table_options)
 toast_file = "urdf/google/Black_and_Decker_TR3500SD_2Slice_Toaster/model.urdf"
 toast_asset = gym.load_asset(sim, asset_root, toast_file, table_options)
 
-drainer_file = "urdf/google/Rubbermaid_Large_Drainer/model.urdf"
-drainer_asset = gym.load_asset(sim, asset_root, drainer_file, table_options)
+refrigerator_file = "urdf/google/Drawer/model.urdf"
+refrigerator_asset = gym.load_asset(sim, asset_root, refrigerator_file, table_options)
 
-sink_file = "urdf/google/KitchenCountertop/model.urdf"
+diningchair_file = "urdf/google/DiningChair/model.urdf"
+diningchair_asset = gym.load_asset(sim, asset_root, diningchair_file, table_options)
+
+bin_file = "urdf/google/TrashBin/model.urdf"
+bin_asset = gym.load_asset(sim, asset_root, bin_file, table_options)
+
+sink_file = "urdf/google/sink2/model.urdf"
 sink_asset = gym.load_asset(sim, asset_root, sink_file, wall_options)
 fridge_file = "urdf/google/Nescafe/model.urdf"
 fridge_asset = gym.load_asset(sim, asset_root, fridge_file, wall_options)
-desk_file = "urdf/google/Desk/model.urdf"
+desk_file = "urdf/google/DiningTable/model.urdf"
 desk_asset = gym.load_asset(sim, asset_root, desk_file, wall_options)
+shelf_file = "urdf/google/shelf/model.urdf"
+shelf_asset = gym.load_asset(sim, asset_root, shelf_file, wall_options)
+diningroom_file = "urdf/google/KITCHEN_SET/model.urdf"
+diningroom_asset = gym.load_asset(sim, asset_root,diningroom_file, wall_options)
+
+
+bowl_file = "urdf/ycb/024_bowl/model.urdf"
+bowl_asset = gym.load_asset(sim, asset_root,bowl_file, table_options)
 
 ur5_dof_props = gym.get_asset_dof_properties(ur5_asset)
 
@@ -145,7 +169,7 @@ for i in range(8):
     ur5_dof_props['damping'][i] = 200
     ur5_dof_props['driveMode'][i] = gymapi.DOF_MODE_POS
 
-asset_box = gym.create_box(sim,0.5,0.5,1.3,wall_options)
+asset_box = gym.create_box(sim,0.5,0.5,1.0,wall_options)
 
 envs=[]
 
@@ -158,22 +182,31 @@ for i in range(num_envs):
     wall1_actor = gym.create_actor(env, wall_asset_1,gymapi.Transform(p=gymapi.Vec3(0.0,1.475,1.5)),'wall1',i,0)
     wall2_actor = gym.create_actor(env, wall_asset_2,gymapi.Transform(p=gymapi.Vec3(1.5,3.0,1.5)),'wall2',i,0)
     wall3_actor = gym.create_actor(env, wall_asset_1,gymapi.Transform(p=gymapi.Vec3(3.0,1.475,1.5)),'wall3',i,0)
-    gym.set_rigid_body_color(env,wall1_actor,0,gymapi.MESH_VISUAL_AND_COLLISION, gymapi.Vec3(0,0.2471,0.2784))
-    gym.set_rigid_body_color(env,wall2_actor,0,gymapi.MESH_VISUAL_AND_COLLISION, gymapi.Vec3(0,0.2471,0.2784))
-    gym.set_rigid_body_color(env,wall3_actor,0,gymapi.MESH_VISUAL_AND_COLLISION, gymapi.Vec3(0,0.2471,0.2784))
-   
+    '''gym.set_rigid_body_color(env,wall1_actor,0,gymapi.MESH_VISUAL_AND_COLLISION, gymapi.Vec3(0.9255,0.902,0.8))
+    gym.set_rigid_body_color(env,wall2_actor,0,gymapi.MESH_VISUAL_AND_COLLISION, gymapi.Vec3(0.9255,0.902,0.8))
+    gym.set_rigid_body_color(env,wall3_actor,0,gymapi.MESH_VISUAL_AND_COLLISION, gymapi.Vec3(0.9255,0.902,0.8))
+    #gym.set_rigid_body_color(env,wall1_actor,0,gymapi.MESH_VISUAL_AND_COLLISION, gymapi.Vec3(0.9255,0.902,0.8))'''
+    #gym.set_rigid_body_color(env,wall2_actor,0,gymapi.MESH_VISUAL_AND_COLLISION, gymapi.Vec3(0.9255,0.902,0.8))
+    #gym.set_rigid_body_color(env,wall3_actor,0,gymapi.MESH_VISUAL_AND_COLLISION, gymapi.Vec3(0.9255,0.902,0.8))
    
     #table_actor = gym.create_actor(env, table_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2) ,p=gymapi.Vec3(2.55,1.8,0.81)),'table',i,0)
     #basket_actor = gym.create_actor(env, basket_asset, gymapi.Transform(r=gymapi.Quat.from_axiis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2) ,p=gymapi.Vec3(2.55,1.5,0.2)),'basket',i,0)
     #gym.set_actor_scale(env, basket_actor, 2.0)
-    ur5_actor = gym.create_actor(env, ur5_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(1.5,2.0,0.9)),'ur5',i,0)
+    ur5_actor = gym.create_actor(env, ur5_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(1.7,2.2,0.7)),'ur5',i,0)
     gym.set_actor_dof_properties(env, ur5_actor, ur5_dof_props)
-    gym.create_actor(env, asset_box, gymapi.Transform(p=gymapi.Vec3(1.5,2.0,0.25)),'box',i,0)
-    sink_actor = gym.create_actor(env, sink_asset, gymapi.Transform(p=gymapi.Vec3(0.37,1.8,0.0)),'sink',i,0)
-    fridge_actor = gym.create_actor(env, basket_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(2.675,2.655,0.0)),'fridge',i,0)
-    desk_actor = gym.create_actor(env, desk_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2),p=gymapi.Vec3(2.7-1.125,1.93-1.21,0.0)),'desk',i,0)
-    gym.set_actor_scale(env, desk_actor, 1.5)
-    deskcolor=gymapi.Vec3(0,0,0)
+    box_actor=gym.create_actor(env, asset_box, gymapi.Transform(p=gymapi.Vec3(1.7,2.2,0.25)),'box',i,0)
+    gym.set_rigid_body_color(env,box_actor,0,gymapi.MESH_VISUAL_AND_COLLISION, gymapi.Vec3(0.055,0.02,0.02))
+    #sink_actor = gym.create_actor(env, sink_asset, gymapi.Transform(p=gymapi.Vec3(0.41,2.4,0.0)),'sink',i,0)
+    #shelf_actor = gym.create_actor(env, shelf_asset, gymapi.Transform(p=gymapi.Vec3(1.41,2.4,1.5)),'shelf',i,0)
+    #gym.set_actor_scale(env, shelf_actor,1.5)
+    #gym.set_rigid_body_color(env,shelf_actor,0,gymapi.MESH_VISUAL_AND_COLLISION, gymapi.Vec3(0.1,0.1,0.5))
+    #fridge_actor = gym.create_actor(env, drainer_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(2.7-1.125,0.8,1.2)),'fridge',i,0)
+    desk_actor = gym.create_actor(env, diningroom_asset , gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0),-np.pi/2),p=gymapi.Vec3(2.1,1.65,0.0)),'desk',i,0)
+    desk_actor1 = gym.create_actor(env, desk_asset , gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(1.0, 0.0, 0.0),np.pi/2),p=gymapi.Vec3(0.8,1.20,0.0)),'desk',i,0)
+    chair_actor = gym.create_actor(env, diningchair_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(1.0, 0.0, 0.0),np.pi/2),p=gymapi.Vec3(0.81,2.3,0.0)),'desk',i,0)
+    gym.set_actor_scale(env, desk_actor1,0.65)
+    gym.set_actor_scale(env, desk_actor,10.0)
+    deskcolor=gymapi.Vec3(0.8235, 0.7059, 0.5490)
     gym.set_rigid_body_color(env,desk_actor, 0, gymapi.MESH_VISUAL, deskcolor)
     '''
     for k in range(8):
@@ -192,13 +225,26 @@ for i in range(num_envs):
     object_position.y = object_position.y + 0.3
     mustard_actor = gym.create_actor(env, mustard_asset, gymapi.Transform(p=object_position),'mustard', i, 0)
     '''
-    #drainer_actor = gym.create_actor(env, drainer_asset, gymapi.Transform(p=gymapi.Vec3(0.4,2.0,1.01)),'drainer', i, 0)
-    cooker_actor = gym.create_actor(env, frypan_asset, gymapi.Transform(p=gymapi.Vec3(2.7-0.685,1.93-1.11,0.8),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2)),'cooker',i,0)
+    #drainer_actor = gym.create_actor(env, refrigerator_asset, gymapi.Transform(p=gymapi.Vec3(2.65,2.5,0),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2)),'drainer', i, 0)
+    #bin_actor = gym.create_actor(env, bin_asset, gymapi.Transform(p=gymapi.Vec3(0.95,1.9,0.0)),'drainer', i, 0)
+    #drainer_actor3 = gym.create_actor(env, refrigerator_asset, gymapi.Transform(p=gymapi.Vec3(0.7,2.8,0)),'drainer', i, 0)
+    #cooker_actor = gym.create_actor(env,plum_asset, gymapi.Transform(p=gymapi.Vec3(0.35,0.96,0.67),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2)),'cooker',i,0)
     object_position.y = object_position.y - 0.3
     object_position.x = object_position.x + 0.05
-    toast_actor = gym.create_actor(env, knife_asset, gymapi.Transform(p=gymapi.Vec3(0.4,1.6,0.8),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2)), 'toast', i, 0)
+    #toast_actor = gym.create_actor(env, banana_asset, gymapi.Transform(p=gymapi.Vec3(0.34,1.0,0.62),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2)), 'toast', i, 0)
     object_position.x = object_position.x - 0.5
-    can_actor = gym.create_actor(env, sugar_asset, gymapi.Transform(p=gymapi.Vec3(2.7-1.125,1.93-1.21,0.9),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi)), 'can', i, 0)
+    #can_actor = gym.create_actor(env, orange_asset, gymapi.Transform(p=gymapi.Vec3(0.46,0.99,0.62),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2)), 'can', i, 0)
+    #tomato_actor = gym.create_actor(env, tomato_asset, gymapi.Transform(p=gymapi.Vec3(1.55,2.2,1.7),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2)), 'can', i, 0)
+    #tomato_actor2 = gym.create_actor(env, tomato_asset, gymapi.Transform(p=gymapi.Vec3(1.65,2.2,1.7),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2)), 'can', i, 0)
+    #tomato_actor3 = gym.create_actor(env, tomato_asset, gymapi.Transform(p=gymapi.Vec3(1.75,2.2,1.7),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2)), 'can', i, 0)
+    toast_actor = gym.create_actor(env, toast_asset, gymapi.Transform(p=gymapi.Vec3(2.65,1.1,0.7),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2)), 'can', i, 0)
+    knife_actor = gym.create_actor(env,knife_asset, gymapi.Transform(p=gymapi.Vec3(2.65,0.90,0.75),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2)), 'can', i, 0)
+    mustard_actor = gym.create_actor(env, mustard_asset, gymapi.Transform(p=gymapi.Vec3(2.35,0.90,0.79),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2)), 'can', i, 0)
+    sugar_actor = gym.create_actor(env, sugar_asset, gymapi.Transform(p=gymapi.Vec3(2.25,0.99,0.77),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi)), 'can', i, 0)
+    bowl_actor = gym.create_actor(env, bowl_asset, gymapi.Transform(p=gymapi.Vec3(1.35,0.95,0.76),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(1.0, 0.0, 0.0), np.pi/2)), 'can', i, 0)
+    bowl_actor2 = gym.create_actor(env, bowl_asset, gymapi.Transform(p=gymapi.Vec3(1.55,0.95,0.76),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(1.0, 0.0, 0.0), np.pi/2)), 'can', i, 0)
+    gym.set_rigid_body_color(env,bowl_actor, 0, gymapi.MESH_VISUAL, gymapi.Vec3(1,1,1))
+    gym.set_rigid_body_color(env,bowl_actor2, 0, gymapi.MESH_VISUAL, gymapi.Vec3(1,1,1))
     #camera
     wrist_body = gym.find_actor_rigid_body_handle(env,ur5_actor,"ee_link")
     for c in range(len(cam_positions)):
@@ -218,21 +264,17 @@ for i in range(num_envs):
     gym.set_light_parameters(sim, 1, gymapi.Vec3(), gymapi.Vec3(), gymapi.Vec3())
     gym.set_light_parameters(sim, 2, gymapi.Vec3(), gymapi.Vec3(), gymapi.Vec3())
 
-cam_pos = gymapi.Vec3(1.5,-1.5, 3.0)
+cam_pos = gymapi.Vec3(1.5, -1.5, 3.0)
 cam_target = gymapi.Vec3(1.5, 3.0, 1.0)
 gym.viewer_camera_look_at(viewer, envs[0], cam_pos, cam_target)
-joint_positions = np.array([-0.4745,-1.4679, 1.9761, -2.0973,-1.6185,-1.5006,0.5000, 0.5000,-0.5000,-0.5000], dtype=np.float32)
+joint_positions =np.array([1.4745,-1.4679, 1.9761, -2.0973,-1.6185,-1.5006,0.5000, 0.5000], dtype=np.float32)
 
 while not gym.query_viewer_has_closed(viewer):
-
-
     gym.set_actor_dof_position_targets(envs[0], ur5_actor, joint_positions)
     # step the simulation
     gym.simulate(sim)
     gym.fetch_results(sim, True)
-
     gym.step_graphics(sim)
-
     gym.draw_viewer(viewer, sim, True)
     gym.sync_frame_time(sim)
 
