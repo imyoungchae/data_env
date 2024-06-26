@@ -182,7 +182,7 @@ for i in range(num_envs):
     gym.set_actor_dof_properties(env, ur5_actor, ur5_dof_props)
     box_actor=gym.create_actor(env, asset_box, gymapi.Transform(p=gymapi.Vec3(1.5,2.5,0.25)),'box',i,0)
     gym.set_rigid_body_color(env,box_actor,0,gymapi.MESH_VISUAL_AND_COLLISION, gymapi.Vec3(0,0.2471,0.5))
-    sink_actor = gym.create_actor(env, sink_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(1.5,1.8,0.0)),'sink',i,0)
+    sink_actor = gym.create_actor(env, sink_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2),p=gymapi.Vec3(1.5,1.8,0.0)),'sink',i,0)
     #fridge_actor = gym.create_actor(env, fridge_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(0.675,1.655,0.0)),'fridge',i,0)
     #fridge_actor = gym.create_actor(env, drainer_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(2.7-1.125,0.8,1.2)),'fridge',i,0)
     '''desk_actor = gym.create_actor(env, desk_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2),p=gymapi.Vec3(2.7-1.125,0.8,0.0)),'desk',i,0)
