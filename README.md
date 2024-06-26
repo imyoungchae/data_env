@@ -1,4 +1,4 @@
 # data_env
 
-![image](https://github.com/imyoungchae/data_env/assets/87971802/feb1f8a4-2ef7-4c0f-9a1a-6558d6e39a29)
 env1
+![Screenshot from 2024-06-26 17-01-14](https://github.com/imyoungchae/data_env/assets/87971802/fb0c8026-c1a1-42fd-8f7b-47980780d3ae)
